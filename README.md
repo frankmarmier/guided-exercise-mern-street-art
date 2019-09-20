@@ -4,7 +4,7 @@
 
 In this project, you will build a complete fullstack application where users go create/read/update/delete street arts.
 
-A demo is available here: https://mern-street-arts.herokuapp.com (the map is not available)
+A demo is available here: https://mern-street-arts.herokuapp.com (the map is not available).
 
 This project will rely on the following technologies: 
 - Front-end:
@@ -98,22 +98,9 @@ Route                               | Type of protection | Description
 
 ### Iteration 1 | Initialise with the MERN boilerplate
 
-First, create a GitHub repository. We will assume the link is `<https://github.com/user/my-project.git>`
+First, go to https://github.com/mc100s/mern-hooks-boilerplate, click on the button [*Use this template*](https://github.com/mc100s/mern-hooks-boilerplate/generate) and create a a new repository from this template. When it's done, you can clone your repository.
 
-Open your terminal, go in a folder where you want to create the project and execute the following commands.
-```sh
-# Clone the project with only the last commit and save it in the folder <my-project>
-$ git clone --depth=1 https://github.com/mc100s/mern-hooks-boilerplate.git mern-street-art
-
-$ cd mern-street-art
-$ rm -rf .git
-$ git init
-
-# Set your GitHub repository as the "origin" remote repository (remove < and >)
-$ git remote add origin <https://github.com/user/my-project.git>
-```
-
-Create a file `server/.env`, with for example the following values;
+Then, create a file `server/.env`, with for example the following values:
 
 ```
 PORT=5000
@@ -553,26 +540,24 @@ This is what you should see with Postman when you are done.
 **NOTE**: We recommand you to make sure that a connected user can't delete the visit of another user.
 
 
-### Iteration 10 | Frontend | Add of Bootstrap + Reactstrap + `MainNavbar` 
+### Iteration 10 | Frontend | Add of Bootstrap + `MainNavbar` 
 
 Now it's time to start the front-end part 🔥
 
-In this iteration, you will just add [Bootstrap](https://getbootstrap.com) with [Reactstrap](http://reactstrap.github.io).
-
-For this, you have to install 2 packages:
+For this, you have to install 1 package:
 ```sh
 $ cd client
-$ npm install bootstrap reactstrap
+$ npm install bootstrap
 ``` 
 
-Then, add the following line in your `client/src/index.scss`:
+Then, add the following line in your `client/src/index.scss` (at line 4, just after declaring variables):
 ```scss
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
 ```
 
-Then you can create a navbar in the file `client/src/MainNavbar.jsx`.
+Then you can create a navbar in the file `client/src/MainNavbar.jsx`. You can adapt one of the navbar shown on the [Bootstrap documentation](https://getbootstrap.com/docs/4.3/components/navbar/#color-schemes).
 
-The Navbar contains the following links:
+The MainNavbar contains the following links:
 - `/` (logo on the left)
 - `/list`
 - `/map`
@@ -737,14 +722,6 @@ addStreetArt(uploadData) {
 **`client/src/components/pages/NewStreetArt.jsx`**
 ```js
 import React, { Component } from 'react'
-import {
-  Button,
-  Col,
-  Container,
-  Input,
-  Label,
-  Row
-} from 'reactstrap'
 import api from '../../api'
 
 export default class NewStreetArt extends Component {
@@ -800,43 +777,41 @@ export default class NewStreetArt extends Component {
   }
   render() {
     return (
-      <Container className="NewStreetArt">
+      <div className="container NewStreetArt">
         <h1>New Street Art</h1>
 
-        <Button className="my-4" color="danger" block outline onClick={this.getCurrentCoordinates}>
+        <button className="btn btn-block btn-outline-danger my-4"  onClick={this.getCurrentCoordinates}>
           Get Current Coordinates
-        </Button>
+        </button>
 
-        <Row className="my-4">
-          <Col sm={3}>
-            <Label for="exampleEmail">Coordinates</Label>
-          </Col>
-          <Col>
-            <Input type="number" value={this.state.lng} onChange={this.handleInputChange} name="lng" placeholder="Longitude" />
-          </Col>
-          <Col>
-            <Input type="number" value={this.state.lat} onChange={this.handleInputChange} name="lat" placeholder="Latitude" />
-          </Col>
-        </Row>
+        <div className="row my-4">
+          <div className="col-sm-3">
+            <label>Coordinates</label>
+          </div>
+          <div className="col">
+            <input className="form-control" type="number" value={this.state.lng} onChange={this.handleInputChange} name="lng" placeholder="Longitude" />
+          </div>
+          <div className="col">
+            <input className="form-control" type="number" value={this.state.lat} onChange={this.handleInputChange} name="lat" placeholder="Latitude" />
+          </div>
+        </div>
 
-        <Row className="my-4">
-          <Col sm={3}>
-            <Label for="exampleEmail">Picture</Label>
-          </Col>
-          <Col>
-            <Input type="file" name="picture" onChange={this.handleFileChange} />
-          </Col>
-        </Row>
+        <div className="row my-4">
+          <div className="col-sm-3">
+            <label>Picture</label>
+          </div>
+          <div className="col">
+            <input className="form-control" type="file" name="picture" onChange={this.handleFileChange} />
+          </div>
+        </div>
 
-        <Button className="my-4" color="danger" block onClick={this.addStreetArtAndRedirectToDetailPage}>
+        <button className="btn btn-block btn-danger my-4" onClick={this.addStreetArtAndRedirectToDetailPage}>
           Add Street Art
-        </Button>
-
-      </Container>
+        </button>
+      </div>
     )
   }
 }
-
 ```
 
 You can preview the page here: 
