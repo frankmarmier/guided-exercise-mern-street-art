@@ -645,7 +645,7 @@ $ npm install mapbox-gl
 ```js
 // client/src/components/pages/StreetArtDetail.jsx
 // ...
-
+import React, { useState, useEffect, useRef } from 'react'
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl' // NEW
 
 // Inform your Mapbox token (https://www.mapbox.com/account/)
