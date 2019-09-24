@@ -721,96 +721,90 @@ addStreetArt(uploadData) {
 
 **`client/src/components/pages/NewStreetArt.jsx`**
 ```js
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import api from '../../api'
 
-export default class NewStreetArt extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      lat: '',
-      lng: '',
-      picture: null
-    }
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleFileChange = this.handleFileChange.bind(this)
-    this.addStreetArtAndRedirectToDetailPage = this.addStreetArtAndRedirectToDetailPage.bind(this)
-    this.getCurrentCoordinates = this.getCurrentCoordinates.bind(this)
-  }
-  getCurrentCoordinates() {
+export default function NewStreetArt(props) {
+  const [state, setState] = useState({
+    lat: '',
+    lng: '',
+    picture: null
+  })
+  function getCurrentCoordinates() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         console.log("The current coords are", position.coords)
-        this.setState({
+        setState({
+          ...state,
           lng: "TODO", // TODO: write the correct value
           lat: "TODO" // TODO: write the correct value
         })
       })
     }
   }
-  handleInputChange(e) {
-    this.setState({
+  function handleInputChange(e) {
+    setState({
+      ...state,
       [e.target.name]: e.target.value
     })
   }
-  handleFileChange(e) {
+  function handleFileChange(e) {
     console.log("The file added by the use is: ", e.target.files[0])
-    this.setState({
+    setState({
+      ...state,
       picture: e.target.files[0]
     })
   }
-  addStreetArtAndRedirectToDetailPage(e) {
+  function addStreetArtAndRedirectToDetailPage(e) {
     // To send information with "form-data" (like in Postman)
     const uploadData = new FormData()
-    uploadData.append("lng", this.state.lng)
-    uploadData.append("lat", this.state.lat)
-    uploadData.append("picture", this.state.picture)
+    uploadData.append("lng", state.lng)
+    uploadData.append("lat", state.lat)
+    uploadData.append("picture", state.picture)
 
     api.addStreetArt(uploadData)
       .then(createdStreetArt => {
         // Redirect the user to another page
-        this.props.history.push('/todo') // TODO
+        props.history.push('/todo') // TODO: change the URL
       })
       .catch(err => {
         console.log("Error while adding the street art: ", err)
       })
   }
-  render() {
-    return (
-      <div className="container NewStreetArt">
-        <h1>New Street Art</h1>
+  return (
+    <div className="container NewStreetArt">
+      <h1>New Street Art</h1>
 
-        <button className="btn btn-block btn-outline-danger my-4"  onClick={this.getCurrentCoordinates}>
-          Get Current Coordinates
-        </button>
+      <button className="btn btn-block btn-outline-danger my-4"  onClick={getCurrentCoordinates}>
+        Get Current Coordinates
+      </button>
 
-        <div className="row my-4">
-          <div className="col-sm-3">
-            <label>Coordinates</label>
-          </div>
-          <div className="col">
-            <input className="form-control" type="number" value={this.state.lng} onChange={this.handleInputChange} name="lng" placeholder="Longitude" />
-          </div>
-          <div className="col">
-            <input className="form-control" type="number" value={this.state.lat} onChange={this.handleInputChange} name="lat" placeholder="Latitude" />
-          </div>
+      <div className="row my-4">
+        <div className="col-sm-3">
+          <label>Coordinates</label>
         </div>
-
-        <div className="row my-4">
-          <div className="col-sm-3">
-            <label>Picture</label>
-          </div>
-          <div className="col">
-            <input className="form-control" type="file" name="picture" onChange={this.handleFileChange} />
-          </div>
+        <div className="col">
+          <input className="form-control" type="number" value={state.lng} onChange={handleInputChange} name="lng" placeholder="Longitude" />
         </div>
-
-        <button className="btn btn-block btn-danger my-4" onClick={this.addStreetArtAndRedirectToDetailPage}>
-          Add Street Art
-        </button>
+        <div className="col">
+          <input className="form-control" type="number" value={state.lat} onChange={handleInputChange} name="lat" placeholder="Latitude" />
+        </div>
       </div>
-    )
-  }
+
+      <div className="row my-4">
+        <div className="col-sm-3">
+          <label>Picture</label>
+        </div>
+        <div className="col">
+          <input className="form-control" type="file" name="picture" onChange={handleFileChange} />
+        </div>
+      </div>
+
+      <button className="btn btn-block btn-danger my-4" onClick={addStreetArtAndRedirectToDetailPage}>
+        Add Street Art
+      </button>
+    </div>
+  )
 }
 ```
 
@@ -819,7 +813,7 @@ You can preview the page here:
 
 
 
-### Next iterations
+### Next iterations (bonus)
 - Iteration x | Frontend | Simple page component `Map`
 - Iteration x | Frontend | Change of signup and login
 - Iteration x | Frontend | Add of visits in `List`
