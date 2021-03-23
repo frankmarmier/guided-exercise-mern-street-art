@@ -700,7 +700,7 @@ mapboxgl.accessToken = 'YourToken' // NEW
 
   render() {
     // ...
-      <div ref={this.mapDomRef} style={{height: 400}}></div> {/* NEW */}
+      <div ref={this.mapDomRef} style={{height: 400, width: "100%"}}></div> {/* NEW */}
     // ...
   }
 }
