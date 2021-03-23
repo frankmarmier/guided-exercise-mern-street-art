@@ -90,7 +90,7 @@ For this project, you will use 3 models:
 
 ## Iterations
 
-- Initialise with the [MERN boilerplate](https://github.com/mc100s/mern-hooks-boilerplate)
+- Fork the [boilerplate](https://github.com/frankmarmier/mern_boilerplate_no_context)
 - Create the models
 - Create a seed file
 - Create the backend routes
@@ -98,11 +98,10 @@ For this project, you will use 3 models:
 - Create a page to see all street arts in a list
 - Create a page to see all street arts in a map
 - Create a page to add a new street art
-- Deploy it
 
 ### Iteration 1 | Initialise with the MERN boilerplate
 
-First, go to https://github.com/mc100s/mern-hooks-boilerplate, click on the button [_Use this template_](https://github.com/mc100s/mern-hooks-boilerplate/generate) and create a a new repository from this template. When it's done, you can clone your repository.
+First, go to https://github.com/frankmarmier/mern_boilerplate_no_context, make a fork.
 
 Then, create a file `server/.env`, with for example the following values:
 
