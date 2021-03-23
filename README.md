@@ -730,11 +730,6 @@ import React from "react";
 import api from "../../api";
 
 class NewStreetArt extends React.Component {
-  const [state, setState] = useState({
-    lat: "",
-    lng: "",
-    picture: null,
-  });
 
   state= {
     lat: "",
