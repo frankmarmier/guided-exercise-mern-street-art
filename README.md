@@ -463,23 +463,9 @@ After doing the request in Postman, you should see a new document with the infor
 
 ### Iteration 6 | Backend | Fix the signup and login
 
-If you inspect the project, inside `server/routes/auth.js` you already have 2 routes for signup (`POST /api/signup`) and login (`POST /api/login`). The problem with them is that they rely on 2 fields, "username"/"password", instead of "email"/"password".
+If you inspect the project, inside `server/routes/auth.js` you already have 2 routes for signup (`POST /api/signup`) and login (`POST /api/login`) and (`GET /api/current-user`) are empty !
 
-Let's change this!
-
-Go to `server/routes/auth.js` and find and replace all `username` by `email`.
-
-To make the code cleaner, in the signup route, you can also remove everything related `name` (you don't need the name of the user in this project).
-
-```js
-// server/routes/auth.js
-
-// Around line 11
-const { email, password } = req.body;
-
-// Around line 24
-const newUser = new User({ email, password: hashPass });
-```
+Update it with the code from the lesson and adapt it :)
 
 Now it's time to test!
 
@@ -502,7 +488,7 @@ First, you have to create a file `server/routes/visits.js`
 const express = require("express");
 const StreetArt = require("../models/StreetArt");
 const Visit = require("../models/Visit");
-const { isLoggedIn } = require("../middlewares");
+const { isLoggedIn } = require("../middlewares/isLoggedIn");
 const router = express.Router();
 
 // Route protected for logged in user
