@@ -649,52 +649,62 @@ $ npm install mapbox-gl
 ```js
 // client/src/components/pages/StreetArtDetail.jsx
 // ...
-import React, { useState, useEffect, useRef } from 'react'
+import React  from 'react'
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl' // NEW
 
 // Inform your Mapbox token (https://www.mapbox.com/account/)
 mapboxgl.accessToken = 'YourToken' // NEW
 
-export default function StreetArtDetail(props) {
-  const streetArtId = props.match.params.id
-  const mapDomRef = useRef(null) // NEW
-  let map = useRef(null).current // NEW
-  let marker = useRef(null).current // NEW
+ class StreetArtDetail extends React.Component {
 
-  const [streetArt, setStreetArt] = useState(null)
-  useEffect(() => {
-    api.getStreetArt(streetArtId).then(streetArt => {
-      setStreetArt(streetArt)
-      let [lng, lat] = streetArt.location.coordinates // NEW
-      initMap(lng, lat) // NEW
+
+   state = {
+     streetArt: null,
+   }
+
+  mapDomRef = React.createRef(null) // NEW
+  map =React.createRef(null).current //NEW
+  marker = React.createRef(null).current //NEW
+
+  componentDidMount(){
+    const streetArtId = this.props.match.params.id
+    api.getStreetArt(streetArtId).then(data => {
+      this.setState({streetArt: data})
+      const [lng,lat] = streetArt.location.coordinates; // NEW
+      this.initMap(lng, lat) // NEW
+    }).catch(error => {
+      console.log(error)
     })
-  }, [])
+  }
 
-  function initMap(lng, lat) {
+
+
+   initMap = (lng, lat) => {
     // NEW METHOD
     // Embed the map where "mapDomRef" is defined in the render
-    map = new mapboxgl.Map({
-      container: mapDomRef.current,
+    this.map = new mapboxgl.Map({
+      container: this.mapDomRef.current,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [lng, lat],
       zoom: 10,
     })
 
     // Add zoom control on the top right corner
-    map.addControl(new mapboxgl.NavigationControl())
+    this.map.addControl(new mapboxgl.NavigationControl())
 
     // Create a marker on the map with the coordinates ([lng, lat])
-    marker = new mapboxgl.Marker({ color: 'red' })
+    this.marker = new mapboxgl.Marker({ color: 'red' })
       .setLngLat([lng, lat])
       .addTo(map)
   }
 
   render() {
     // ...
-      <div ref={mapDomRef} style={{height: 400}}></div> {/* NEW */}
+      <div ref={this.mapDomRef} style={{height: 400}}></div> {/* NEW */}
     // ...
   }
 }
+export default StreetArtDetail
 ```
 
 You can preview the page here:
@@ -730,41 +740,37 @@ import React from "react";
 import api from "../../api";
 
 class NewStreetArt extends React.Component {
-
-  state= {
+  state = {
     lat: "",
     lng: "",
-    pciture: null
-  }
+    pciture: null,
+  };
 
-   getCurrentCoordinates = () => {
+  getCurrentCoordinates = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         console.log("The current coords are", position.coords);
 
         this.setState({
-           lng: "TODO", // TODO: write the correct value
+          lng: "TODO", // TODO: write the correct value
           lat: "TODO", // TODO: write the correct value
-        })
-
+        });
       });
     }
-  }
+  };
 
-   handleChange =  (event) => {
+  handleChange = (event) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
-  }
+  };
 
-
-   handleFileChange = (event) => {
+  handleFileChange = (event) => {
     console.log("The file added by the use is: ", e.target.files[0]);
     this.setState({
       picture: e.target.files[0],
     });
-  }
-
+  };
 
   addStreetArtAndRedirectToDetailPage = (event) => {
     // To send information with "form-data" (like in Postman)
@@ -782,71 +788,69 @@ class NewStreetArt extends React.Component {
       .catch((err) => {
         console.log("Error while adding the street art: ", err);
       });
+  };
+
+  render() {
+    return (
+      <div className="container NewStreetArt">
+        <h1>New Street Art</h1>
+
+        <button
+          className="btn btn-block btn-outline-danger my-4"
+          onClick={this.getCurrentCoordinates}
+        >
+          Get Current Coordinates
+        </button>
+
+        <div className="row my-4">
+          <div className="col-sm-3">
+            <label>Coordinates</label>
+          </div>
+          <div className="col">
+            <input
+              className="form-control"
+              type="number"
+              value={this.state.lng}
+              onChange={this.handleChange}
+              name="lng"
+              placeholder="Longitude"
+            />
+          </div>
+          <div className="col">
+            <input
+              className="form-control"
+              type="number"
+              value={this.state.lat}
+              onChange={this.handleChange}
+              name="lat"
+              placeholder="Latitude"
+            />
+          </div>
+        </div>
+
+        <div className="row my-4">
+          <div className="col-sm-3">
+            <label>Picture</label>
+          </div>
+          <div className="col">
+            <input
+              className="form-control"
+              type="file"
+              name="picture"
+              onChange={this.handleFileChange}
+            />
+          </div>
+        </div>
+
+        <button
+          className="btn btn-block btn-danger my-4"
+          onClick={this.addStreetArtAndRedirectToDetailPage}
+        >
+          Add Street Art
+        </button>
+      </div>
+    );
   }
-
-  render(){
-
-
-  return (
-    <div className="container NewStreetArt">
-      <h1>New Street Art</h1>
-
-      <button
-        className="btn btn-block btn-outline-danger my-4"
-        onClick={this.getCurrentCoordinates}
-      >
-        Get Current Coordinates
-      </button>
-
-      <div className="row my-4">
-        <div className="col-sm-3">
-          <label>Coordinates</label>
-        </div>
-        <div className="col">
-          <input
-            className="form-control"
-            type="number"
-            value={this.state.lng}
-            onChange={this.handleChange}
-            name="lng"
-            placeholder="Longitude"
-          />
-        </div>
-        <div className="col">
-          <input
-            className="form-control"
-            type="number"
-            value={this.state.lat}
-            onChange={this.handleChange}
-            name="lat"
-            placeholder="Latitude"
-          />
-        </div>
-      </div>
-
-      <div className="row my-4">
-        <div className="col-sm-3">
-          <label>Picture</label>
-        </div>
-        <div className="col">
-          <input
-            className="form-control"
-            type="file"
-            name="picture"
-            onChange={this.handleFileChange}
-          />
-        </div>
-      </div>
-
-      <button
-        className="btn btn-block btn-danger my-4"
-        onClick={this.addStreetArtAndRedirectToDetailPage}
-      >
-        Add Street Art
-      </button>
-    </div>
-  );
-    }
 }
 ```
 
