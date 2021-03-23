@@ -6,7 +6,8 @@ In this project, you will build a complete fullstack application where users go 
 
 A demo is available here: https://mern-street-arts.herokuapp.com (the map is not available).
 
-This project will rely on the following technologies: 
+This project will rely on the following technologies:
+
 - Front-end:
   - React
   - Bootstrap
@@ -16,16 +17,17 @@ This project will rely on the following technologies:
   - Express
   - MongoDB and Mongoose
 
-
 ## Overview
 
 ### Wireframes on Figma
+
 - [Wireframes on Figma](https://www.figma.com/file/ThXTvVPZaJz53bjMdURF3t/MERN-Street-Art?node-id=0%3A1)
 - [Preview Wireframes on Figma](https://www.figma.com/proto/ThXTvVPZaJz53bjMdURF3t/MERN-Street-Art?node-id=15%3A28&scaling=scale-down)
 
 ### Wireframes on a board
 
 To create the wireframes, we have followed some rules (feel free to adapt them for your own projects)
+
 - Mobile first
 - 1 screen = 1 wireframe
 - Red = pages
@@ -36,53 +38,55 @@ To create the wireframes, we have followed some rules (feel free to adapt them f
 ### Models
 
 For this project, you will use 3 models:
+
 - `User`: To save basic information about the user (email and password)
 - `StreetArt`: To save a picture and the location of a street art
 - `Visit`: To save the visit of a specific user with a specific street art
 
 #### `User`
-Field     | Type
-----------|------------------------------
-_id       | (Automaticaly generated)
-email     | String
-password  | String
-createdAt | Date (Automaticaly generated)
-updatedAt | Date (Automaticaly generated)
+
+| Field     | Type                          |
+| --------- | ----------------------------- |
+| \_id      | (Automaticaly generated)      |
+| email     | String                        |
+| password  | String                        |
+| createdAt | Date (Automaticaly generated) |
+| updatedAt | Date (Automaticaly generated) |
 
 #### `StreetArt`
-Field          | Type
----------------|------------------------------
-_id            | (Automaticaly generated)
-pictureUrl     | String
-location       | (GeoJSON)
--> type        | `"Point"`
--> coordinates | [Number]
-createdAt      | Date (Automaticaly generated)
-updatedAt      | Date (Automaticaly generated)
+
+| Field          | Type                          |
+| -------------- | ----------------------------- |
+| \_id           | (Automaticaly generated)      |
+| pictureUrl     | String                        |
+| location       | (GeoJSON)                     |
+| -> type        | `"Point"`                     |
+| -> coordinates | [Number]                      |
+| createdAt      | Date (Automaticaly generated) |
+| updatedAt      | Date (Automaticaly generated) |
 
 #### `Visit`
-Field      | Type
------------|------------------------------------------
-_id        | (Automaticaly generated)
-_user      | Schema.Types.ObjectId
-_streetArt | Schema.Types.ObjectId
-createdAt  | Date (Automaticaly generated at creation)
 
+| Field       | Type                                      |
+| ----------- | ----------------------------------------- |
+| \_id        | (Automaticaly generated)                  |
+| \_user      | Schema.Types.ObjectId                     |
+| \_streetArt | Schema.Types.ObjectId                     |
+| createdAt   | Date (Automaticaly generated at creation) |
 
 ### Backend routes
 
-Route                               | Type of protection | Description
-------------------------------------|--------------------|-------------------------------------
-`POST /api/signup`                  | Ø                  | Sign up the user
-`POST /api/login`                   | Ø                  | Log in the user
-`POST /api/logout`                  | Must be connected  | Log out the user
-`GET /api/street-arts`              | Ø                  | Get all street arts
-`GET /api/street-arts/:streetArtId` | Ø                  | Get the detail of one street art
-`POST /api/street-arts`             | Ø                  | Add a street art
-`GET /api/my-visits`                | Must be connected  | Get the visits of the connected user
-`POST /api/visits`                  | Must be connected  | Add a visit
-`DELETE /api/visits/:visitId`       | Must be the owner  | Delete a visit
-
+| Route                               | Type of protection | Description                          |
+| ----------------------------------- | ------------------ | ------------------------------------ |
+| `POST /api/signup`                  | Ø                  | Sign up the user                     |
+| `POST /api/login`                   | Ø                  | Log in the user                      |
+| `POST /api/logout`                  | Must be connected  | Log out the user                     |
+| `GET /api/street-arts`              | Ø                  | Get all street arts                  |
+| `GET /api/street-arts/:streetArtId` | Ø                  | Get the detail of one street art     |
+| `POST /api/street-arts`             | Ø                  | Add a street art                     |
+| `GET /api/my-visits`                | Must be connected  | Get the visits of the connected user |
+| `POST /api/visits`                  | Must be connected  | Add a visit                          |
+| `DELETE /api/visits/:visitId`       | Must be the owner  | Delete a visit                       |
 
 ## Iterations
 
@@ -98,7 +102,7 @@ Route                               | Type of protection | Description
 
 ### Iteration 1 | Initialise with the MERN boilerplate
 
-First, go to https://github.com/mc100s/mern-hooks-boilerplate, click on the button [*Use this template*](https://github.com/mc100s/mern-hooks-boilerplate/generate) and create a a new repository from this template. When it's done, you can clone your repository.
+First, go to https://github.com/mc100s/mern-hooks-boilerplate, click on the button [_Use this template_](https://github.com/mc100s/mern-hooks-boilerplate/generate) and create a a new repository from this template. When it's done, you can clone your repository.
 
 Then, create a file `server/.env`, with for example the following values:
 
@@ -109,6 +113,7 @@ MONGODB_URI=mongodb://localhost/mern-street-art
 ```
 
 **To install all the packages**
+
 ```sh
 # Install server and client packages + build the React applicatin
 $ npm install
@@ -119,7 +124,6 @@ $ (cd client && npm install)
 ```
 
 **To install a package for the server**
-
 
 ```sh
 $ cd server
@@ -151,70 +155,83 @@ So now you can go to
 - http://localhost:5000/: The website based on client/build (that you can update with `$ (cd client && npm run build)`)
 - http://localhost:3000/: The last version of your React application that is calling your API with the base url "http://localhost:5000/api/"
 
-### Iteration 2 | Backend |  Create the models and seed the database
+### Iteration 2 | Backend | Create the models and seed the database
 
 For this part, we give you the code!
 
 **Update the file `server/models/User.js`**
+
 ```js
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const schema = new Schema({
-  email: String,
-  password: String
-}, {
-    timestamps: true
-  });
+const schema = new Schema(
+  {
+    email: String,
+    password: String,
+  },
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model('User', schema);
+module.exports = mongoose.model("User", schema);
 ```
 
 **Create a file `server/models/StreetArt.js`**
+
 ```js
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const schema = new Schema({
-  pictureUrl: String,
-  location: {
-    type: { type: String, enum: ["Point"], default: "Point" },
-    coordinates: [Number]
+const schema = new Schema(
+  {
+    pictureUrl: String,
+    location: {
+      type: { type: String, enum: ["Point"], default: "Point" },
+      coordinates: [Number],
+    },
   },
-}, {
-    timestamps: true
-  });
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model('StreetArt', schema);
+module.exports = mongoose.model("StreetArt", schema);
 ```
 
 **Create a file `server/models/Visit.js`**
+
 ```js
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const schema = new Schema({
-  _user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
+const schema = new Schema(
+  {
+    _user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    _streetArt: {
+      type: Schema.Types.ObjectId,
+      ref: "StreetArt",
+    },
   },
-  _streetArt: {
-    type: Schema.Types.ObjectId,
-    ref: 'StreetArt'
-  },
-}, {
+  {
     timestamps: {
-      createdAt: 'createdAt'
-    }
-  });
+      createdAt: "createdAt",
+    },
+  }
+);
 
-module.exports = mongoose.model('Visit', schema);
+module.exports = mongoose.model("Visit", schema);
 ```
 
 **Update the file `server/bin/seeds.js`**
+
 ```js
-const path = require('path')
-require('dotenv').config({ path: path.join(__dirname, '../.env') })
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
 
 // Seeds file that remove all users and create 2 new users
 
@@ -229,7 +246,7 @@ const Visit = require("../models/Visit");
 
 const bcryptSalt = 10;
 
-require('../configs/database')
+require("../configs/database");
 
 let userDocs = [
   new User({
@@ -239,32 +256,35 @@ let userDocs = [
   new User({
     email: "bob@gmail.com",
     password: bcrypt.hashSync("bob", bcrypt.genSaltSync(bcryptSalt)),
-  })
-]
+  }),
+];
 
 let streetArtDocs = [
   new StreetArt({
-    pictureUrl: "https://lh5.googleusercontent.com/p/AF1QipNqlBgeyUgKqGUH_oYogtxRQ0KPTtLAgiCXEUon",
+    pictureUrl:
+      "https://lh5.googleusercontent.com/p/AF1QipNqlBgeyUgKqGUH_oYogtxRQ0KPTtLAgiCXEUon",
     location: {
       type: "Point",
-      coordinates: [ -9.209744,38.696060]
+      coordinates: [-9.209744, 38.69606],
     },
   }),
   new StreetArt({
-    pictureUrl: "https://lh5.googleusercontent.com/p/AF1QipO_kynLt94FYjYKmstOul5mZ-fnXyb6O_2Kr7SL",
+    pictureUrl:
+      "https://lh5.googleusercontent.com/p/AF1QipO_kynLt94FYjYKmstOul5mZ-fnXyb6O_2Kr7SL",
     location: {
       type: "Point",
-      coordinates: [-9.136864,38.720205]
+      coordinates: [-9.136864, 38.720205],
     },
   }),
   new StreetArt({
-    pictureUrl: "https://lh5.googleusercontent.com/p/AF1QipONkHmWhUjFjelUXxlekBg1Aq0ccW20yXxBRxxQ",
+    pictureUrl:
+      "https://lh5.googleusercontent.com/p/AF1QipONkHmWhUjFjelUXxlekBg1Aq0ccW20yXxBRxxQ",
     location: {
       type: "Point",
-      coordinates: [13.451661,52.507734]
+      coordinates: [13.451661, 52.507734],
     },
-  })
-]
+  }),
+];
 
 let visitDocs = [
   new Visit({
@@ -278,37 +298,33 @@ let visitDocs = [
   new Visit({
     _user: userDocs[1]._id,
     _streetArt: streetArtDocs[0]._id,
-  })
-]
+  }),
+];
 
-
-Promise.all([
-  User.deleteMany(),
-  StreetArt.deleteMany(),
-  Visit.deleteMany(),
-])
+Promise.all([User.deleteMany(), StreetArt.deleteMany(), Visit.deleteMany()])
   .then(() => {
-    console.log('All users, street arts and visits have been deleted')
+    console.log("All users, street arts and visits have been deleted");
 
     return Promise.all([
       User.create(userDocs),
       StreetArt.create(streetArtDocs),
       Visit.create(visitDocs),
-    ])
+    ]);
   })
   .then(() => {
-    console.log(`${userDocs.length} users created`)
-    console.log(`${streetArtDocs.length} street arts created`)
-    console.log(`${visitDocs.length} visits created`)
-    mongoose.disconnect()
+    console.log(`${userDocs.length} users created`);
+    console.log(`${streetArtDocs.length} street arts created`);
+    console.log(`${visitDocs.length} visits created`);
+    mongoose.disconnect();
   })
-  .catch(err => {
-    mongoose.disconnect()
-    throw err
-  })
+  .catch((err) => {
+    mongoose.disconnect();
+    throw err;
+  });
 ```
 
 **Execute the seed**
+
 ```sh
 $ node server/bin/seeds.js
 ```
@@ -323,7 +339,6 @@ $ mongod
 
 ![Imgur](https://i.imgur.com/47GAyyM.png)
 
-
 ### Iteration 3 | Backend | `GET /api/street-arts`
 
 The goal of this iteration is to create a backend route `GET /api/street-arts` where you can access all street arts.
@@ -335,9 +350,9 @@ First, update the file `server/app.js`
 
 // ...
 
-app.use('/api', require('./routes/index'))
-app.use('/api', require('./routes/auth'))
-app.use('/api/street-arts', require('./routes/street-arts')) // NEW LINE: take all the routes defined in './routes/street-arts' and prefix them by '/api/street-arts'
+app.use("/api", require("./routes/index"));
+app.use("/api", require("./routes/auth"));
+app.use("/api/street-arts", require("./routes/street-arts")); // NEW LINE: take all the routes defined in './routes/street-arts' and prefix them by '/api/street-arts'
 
 // ...
 ```
@@ -346,22 +361,19 @@ Then, create a file `server/routes/street-arts.js` and write the necessary code 
 
 ```js
 // server/routes/street-arts.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
+router.get("/", (req, res, next) => {
   // TODO
 });
 
 module.exports = router;
 ```
 
-
 When you are done, you can test with Postman `GET http://localhost:5000/api/street-arts`
 
-
 ![Imgur](https://i.imgur.com/oSDgvgS.png)
-
 
 ### Iteration 4 | Backend | `GET /api/street-arts/:streetArtId`
 
@@ -369,14 +381,13 @@ For this iteration, you have to do something very similar and create to route `G
 
 You can create it directly in the file `server/routes/street-arts.js`.
 
-
 To make sure your route is working, you should test it with Postman!
 ![Imgur](https://i.imgur.com/V1tMjG1.png)
-
 
 ### Iteration 5 | Backend | `POST /api/street-arts`
 
 In the route `POST /api/street-arts`, you will create a new street art by send 3 informations:
+
 - `lat`: The latitude
 - `lng`: The longitude
 - `picture`: A file with the picture
@@ -384,6 +395,7 @@ In the route `POST /api/street-arts`, you will create a new street art by send 3
 To save the file, you will rely on Cloudinary.
 
 For this, you have to install some packages:
+
 ```sh
 $ cd server
 $ npm install cloudinary multer-storage-cloudinary multer
@@ -404,23 +416,23 @@ Then, you can create a file `server/configs/cloudinary.js`
 
 ```js
 // server/configs/cloudinary.js
-const cloudinary = require('cloudinary');
-const cloudinaryStorage = require('multer-storage-cloudinary')
-const multer = require('multer');
+const cloudinary = require("cloudinary");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+const multer = require("multer");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET
+  api_secret: process.env.CLOUDINARY_SECRET,
 });
 
 const storage = cloudinaryStorage({
   cloudinary: cloudinary,
-  folder: 'street-art-pictures',
-  allowedFormats: ['jpg', 'png'],
+  folder: "street-art-pictures",
+  allowedFormats: ["jpg", "png"],
   filename: (req, file, cb) => {
     cb(null, file.originalname); // The file on cloudinary would have the same name as the original file name
-  }
+  },
 });
 
 const uploader = multer({ storage });
@@ -428,13 +440,14 @@ module.exports = uploader;
 ```
 
 Then, you have to create a route in `server/routes/street-arts.js`
+
 ```js
 // Route to create a street art
 // `uploader.single('picture')` parses the data send with the name `picture` and save information inside `req.file`
-router.post('/', uploader.single('picture'), (req, res, next) => {
-  let { lat, lng } = req.body
-  let pictureUrl = req.file.url
-  
+router.post("/", uploader.single("picture"), (req, res, next) => {
+  let { lat, lng } = req.body;
+  let pictureUrl = req.file.url;
+
   // TODO: continue
   // ...
 });
@@ -446,10 +459,7 @@ When you are done, you can try with Postman. You will have to send the data with
 
 After doing the request in Postman, you should see a new document with the information you wrote!
 
-
 ![Imgur](https://i.imgur.com/gVhtsxK.png)
-
-
 
 ### Iteration 6 | Backend | Fix the signup and login
 
@@ -465,10 +475,10 @@ To make the code cleaner, in the signup route, you can also remove everything re
 // server/routes/auth.js
 
 // Around line 11
-const { email, password } = req.body
+const { email, password } = req.body;
 
 // Around line 24
-const newUser = new User({ email, password: hashPass })
+const newUser = new User({ email, password: hashPass });
 ```
 
 Now it's time to test!
@@ -482,21 +492,21 @@ Now it's time to test!
 **Verification with MongoDB Compass**
 ![](https://i.imgur.com/q04ki4z.png)
 
-
 ### Iteration 7 | Backend | `GET /api/my-visits`
 
 The goal of the route `GET /api/my-visits` is to display all the visits of the connected user, with informations of the street-art.
 
 First, you have to create a file `server/routes/visits.js`
+
 ```js
-const express = require('express');
-const StreetArt = require('../models/StreetArt');
-const Visit = require('../models/Visit');
-const { isLoggedIn } = require('../middlewares')
+const express = require("express");
+const StreetArt = require("../models/StreetArt");
+const Visit = require("../models/Visit");
+const { isLoggedIn } = require("../middlewares");
 const router = express.Router();
 
 // Route protected for logged in user
-router.get('/my-visits', isLoggedIn, (req, res, next) => {
+router.get("/my-visits", isLoggedIn, (req, res, next) => {
   // TODO: continue
   // You should use `.populate`
 });
@@ -504,10 +514,10 @@ router.get('/my-visits', isLoggedIn, (req, res, next) => {
 module.exports = router;
 ```
 
+Then, add the following line in `server/app.js`:
 
-Then, add the following line in `server/app.js`: 
 ```js
-app.use('/api', require('./routes/visits'))
+app.use("/api", require("./routes/visits"));
 ```
 
 Now, it's time to test with Postman. Be careful, you need to be connected to test.
@@ -515,10 +525,8 @@ Now, it's time to test with Postman. Be careful, you need to be connected to tes
 **`POST /api/login`**: to connect the user
 ![Imgur](https://i.imgur.com/26pPitg.png)
 
-
 **`GET /api/my-vistits`**: to get all the visits with the information of the street-arts. Make sure you only have the visits of the connected user.
 ![Imgur](https://i.imgur.com/VRnit8T.png)
-
 
 ### Iteration 8 | Backend | `POST /api/visits`
 
@@ -527,10 +535,9 @@ Create a route `POST /api/visits` (with a `_streetArt` field) that creates a new
 This is what you should see with Postman when you are done.
 ![Imgur](https://i.imgur.com/eocXrj2.png)
 
-
 ### Iteration 9 | Backend | `DELETE /api/visits/:visitId`
 
-Create a route `DELETE /api/visits/:visitId` that deletes the specified visit. 
+Create a route `DELETE /api/visits/:visitId` that deletes the specified visit.
 
 ⚠️ Be careful, only the owner of the visit can delete his visit.
 
@@ -539,25 +546,27 @@ This is what you should see with Postman when you are done.
 
 **NOTE**: We recommand you to make sure that a connected user can't delete the visit of another user.
 
-
-### Iteration 10 | Frontend | Add of Bootstrap + `MainNavbar` 
+### Iteration 10 | Frontend | Add of Bootstrap + `MainNavbar`
 
 Now it's time to start the front-end part 🔥
 
 For this, you have to install 1 package:
+
 ```sh
 $ cd client
 $ npm install bootstrap
-``` 
+```
 
 Then, add the following line in your `client/src/index.scss` (at line 4, just after declaring variables):
+
 ```scss
-@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
 ```
 
 Then you can create a navbar in the file `client/src/MainNavbar.jsx`. You can adapt one of the navbar shown on the [Bootstrap documentation](https://getbootstrap.com/docs/4.3/components/navbar/#color-schemes).
 
 The MainNavbar contains the following links:
+
 - `/` (logo on the left)
 - `/list`
 - `/map`
@@ -565,15 +574,14 @@ The MainNavbar contains the following links:
 - `/signup`
 - `/login`
 
-
 ![Imgur](https://i.imgur.com/NHPUi5Y.png)
-
 
 ### Iteration 11 | Frontend | Simple page component `List`
 
 The goal of this iteration is to create a simple page "/list".
 
 First, in `client/src/api.js`, you have to create a method `getStreetArts`:
+
 ```js
 // client/src/api.js
 // ...
@@ -586,28 +594,26 @@ First, in `client/src/api.js`, you have to create a method `getStreetArts`:
   },
 ```
 
-
 Then, in `client/src/components/App.jsx`, add a `<Route />` for a `List` component.
-
 
 Finally, you have to create the `List` component in `client/src/components/pages/List.jsx`. It should display a table with all street arts from the backend, thanks to `api.getStreetArts()`.
 
 Your table will have 3 columns at this stage:
+
 - A small version of the picture
 - The coordinates with a link to Google Maps. Example of a link: https://www.google.com/maps/dir//38.69606,-9.209744/@38.69606,-9.209744,15z
 - A button link to the future detail page. Example of a link: http://localhost:3000/street-art-detail/5cc046767f07704e3d51c64f
 
-
-You can preview the page here: 
+You can preview the page here:
 
 ![Imgur](https://i.imgur.com/m6J0OOb.png)
-
 
 ### Iteration 12 | Frontend | Simple page component `StreetArtDetail`
 
 The goal of this iteration is to create a simple page "/street-art-detail/:streetArtId".
 
 First, in `client/src/api.js`, you have to create a method `getStreetArt`:
+
 ```js
 // client/src/api.js
 // ...
@@ -621,12 +627,10 @@ Then, in `client/src/components/App.jsx`, add a `<Route />` for a `StreetArtDeta
 
 Finally, you have to create the `StreetArtDetail` component in `client/src/components/pages/StreetArtDetail.jsx`. You should display the picture and the coordinates of the street art.
 
-You can preview the page here: 
+You can preview the page here:
 ![Imgur](https://i.imgur.com/ySZfLm1.jpg)
 
-
 **BONUS**: Display the picture fullscreen when the user clicks on the picture and go back to the original view when the user clicks again.
-
 
 ### Iteration 13 | Frontend | Add a map in `StreetArtDetail`
 
@@ -639,7 +643,7 @@ $ npm install mapbox-gl
 
 ```scss
 // client/src/index.scss
-@import '../node_modules/mapbox-gl/src/css/mapbox-gl.css';
+@import "../node_modules/mapbox-gl/src/css/mapbox-gl.css";
 ```
 
 ```js
@@ -693,89 +697,109 @@ export default function StreetArtDetail(props) {
 }
 ```
 
-You can preview the page here: 
+You can preview the page here:
 ![Imgur](https://i.imgur.com/IuZMhjF.jpg)
 
 **NOTE**: If the map is only half displayed, change some CSS to make sure your map is not in a `text-align: center`.
 
-
 ### Iteration 14 | Frontend | Page component `NewStreetArt`
 
 For this iteration, you need to:
+
 - Create a method `addStreetArt(uploadData)` in `client/src/api.js`
 - Update `client/src/components/App.jsx` to include a new `<Route />`
 - Create a component `NewStreetArt` saved in `client/src/components/pages/NewStreetArt.jsx`
 
-
 **`client/src/api.js`**
+
 ```js
-// ... 
+// ...
 addStreetArt(uploadData) {
   return service
     .post('/street-arts', uploadData)
     .then(res => res.data)
     .catch(errHandler)
 },
-// ... 
+// ...
 ```
 
 **`client/src/components/pages/NewStreetArt.jsx`**
-```js
-import React, { useState } from 'react'
-import api from '../../api'
 
-export default function NewStreetArt(props) {
+```js
+import React from "react";
+import api from "../../api";
+
+class NewStreetArt extends React.Component {
   const [state, setState] = useState({
-    lat: '',
-    lng: '',
-    picture: null
-  })
-  function getCurrentCoordinates() {
+    lat: "",
+    lng: "",
+    picture: null,
+  });
+
+  state= {
+    lat: "",
+    lng: "",
+    pciture: null
+  }
+
+   getCurrentCoordinates = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        console.log("The current coords are", position.coords)
-        setState({
-          ...state,
-          lng: "TODO", // TODO: write the correct value
-          lat: "TODO" // TODO: write the correct value
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log("The current coords are", position.coords);
+
+        this.setState({
+           lng: "TODO", // TODO: write the correct value
+          lat: "TODO", // TODO: write the correct value
         })
-      })
+
+      });
     }
   }
-  function handleInputChange(e) {
-    setState({
-      ...state,
-      [e.target.name]: e.target.value
-    })
-  }
-  function handleFileChange(e) {
-    console.log("The file added by the use is: ", e.target.files[0])
-    setState({
-      ...state,
-      picture: e.target.files[0]
-    })
-  }
-  function addStreetArtAndRedirectToDetailPage(e) {
-    // To send information with "form-data" (like in Postman)
-    const uploadData = new FormData()
-    uploadData.append("lng", state.lng)
-    uploadData.append("lat", state.lat)
-    uploadData.append("picture", state.picture)
 
-    api.addStreetArt(uploadData)
-      .then(createdStreetArt => {
-        // Redirect the user to another page
-        props.history.push('/todo') // TODO: change the URL
-      })
-      .catch(err => {
-        console.log("Error while adding the street art: ", err)
-      })
+   handleChange =  (event) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   }
+
+
+   handleFileChange = (event) => {
+    console.log("The file added by the use is: ", e.target.files[0]);
+    this.setState({
+      picture: e.target.files[0],
+    });
+  }
+
+
+  addStreetArtAndRedirectToDetailPage = (event) => {
+    // To send information with "form-data" (like in Postman)
+    const uploadData = new FormData();
+    uploadData.append("lng", this.state.lng);
+    uploadData.append("lat", this.state.lat);
+    uploadData.append("picture", this.state.picture);
+
+    api
+      .addStreetArt(uploadData)
+      .then((createdStreetArt) => {
+        // Redirect the user to another page
+        props.history.push("/todo"); // TODO: change the URL
+      })
+      .catch((err) => {
+        console.log("Error while adding the street art: ", err);
+      });
+  }
+
+  render(){
+
+
   return (
     <div className="container NewStreetArt">
       <h1>New Street Art</h1>
 
-      <button className="btn btn-block btn-outline-danger my-4"  onClick={getCurrentCoordinates}>
+      <button
+        className="btn btn-block btn-outline-danger my-4"
+        onClick={this.getCurrentCoordinates}
+      >
         Get Current Coordinates
       </button>
 
@@ -784,10 +808,24 @@ export default function NewStreetArt(props) {
           <label>Coordinates</label>
         </div>
         <div className="col">
-          <input className="form-control" type="number" value={state.lng} onChange={handleInputChange} name="lng" placeholder="Longitude" />
+          <input
+            className="form-control"
+            type="number"
+            value={this.state.lng}
+            onChange={this.handleChange}
+            name="lng"
+            placeholder="Longitude"
+          />
         </div>
         <div className="col">
-          <input className="form-control" type="number" value={state.lat} onChange={handleInputChange} name="lat" placeholder="Latitude" />
+          <input
+            className="form-control"
+            type="number"
+            value={this.state.lat}
+            onChange={this.handleChange}
+            name="lat"
+            placeholder="Latitude"
+          />
         </div>
       </div>
 
@@ -796,27 +834,34 @@ export default function NewStreetArt(props) {
           <label>Picture</label>
         </div>
         <div className="col">
-          <input className="form-control" type="file" name="picture" onChange={handleFileChange} />
+          <input
+            className="form-control"
+            type="file"
+            name="picture"
+            onChange={this.handleFileChange}
+          />
         </div>
       </div>
 
-      <button className="btn btn-block btn-danger my-4" onClick={addStreetArtAndRedirectToDetailPage}>
+      <button
+        className="btn btn-block btn-danger my-4"
+        onClick={this.addStreetArtAndRedirectToDetailPage}
+      >
         Add Street Art
       </button>
     </div>
-  )
+  );
+    }
 }
 ```
 
-You can preview the page here: 
+You can preview the page here:
 ![Imgur](https://i.imgur.com/oeNcorX.png)
 
-
-
 ### Next iterations (bonus)
+
 - Iteration x | Frontend | Simple page component `Map`
 - Iteration x | Frontend | Change of signup and login
 - Iteration x | Frontend | Add of visits in `List`
 - Iteration x | Frontend | Add of visits in `StreetArtDetail`
 - Iteration x | Frontend | Add of visits in `Map`
-- Iteration x | Deploy 🚀
