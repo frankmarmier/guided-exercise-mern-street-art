@@ -416,27 +416,25 @@ Then, you can create a file `server/configs/cloudinary.js`
 
 ```js
 // server/configs/cloudinary.js
-const cloudinary = require("cloudinary");
-const cloudinaryStorage = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const multer = require("multer");
 
+// giving access to your cloudinary account
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_KEY,
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-const storage = cloudinaryStorage({
+const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  folder: "street-art-pictures",
-  allowedFormats: ["jpg", "png"],
-  filename: (req, file, cb) => {
-    cb(null, file.originalname); // The file on cloudinary would have the same name as the original file name
-  },
 });
 
-const uploader = multer({ storage });
-module.exports = uploader;
+const fileUploader = multer({ storage });
+
+// a middleware designed to parse file from requests and associate to req.file
+module.exports = fileUploader;
 ```
 
 Then, you have to create a route in `server/routes/street-arts.js`
@@ -446,7 +444,7 @@ Then, you have to create a route in `server/routes/street-arts.js`
 // `uploader.single('picture')` parses the data send with the name `picture` and save information inside `req.file`
 router.post("/", uploader.single("picture"), (req, res, next) => {
   let { lat, lng } = req.body;
-  let pictureUrl = req.file.url;
+  let pictureUrl = req.file.path;
 
   // TODO: continue
   // ...
