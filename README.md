@@ -622,11 +622,7 @@ You are going to include a map from Mapbox for this iteration. For this, you nee
 ```sh
 $ cd client
 $ npm install mapbox-gl
-```
-
-```scss
-// client/src/index.scss
-@import "../node_modules/mapbox-gl/src/css/mapbox-gl.css";
+$ npm install worker-loader
 ```
 
 ```js
@@ -634,9 +630,12 @@ $ npm install mapbox-gl
 // ...
 import React  from 'react'
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl' // NEW
+import "mapbox-gl/src/css/mapbox-gl.css"; //NEW
 
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default; //NEW
 // Inform your Mapbox token (https://www.mapbox.com/account/)
-mapboxgl.accessToken = 'YourToken' // NEW
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN; // NEW
 
  class StreetArtDetail extends React.Component {
 
@@ -678,7 +677,7 @@ mapboxgl.accessToken = 'YourToken' // NEW
     // Create a marker on the map with the coordinates ([lng, lat])
     this.marker = new mapboxgl.Marker({ color: 'red' })
       .setLngLat([lng, lat])
-      .addTo(map)
+      .addTo(this.map)
   }
 
   render() {
