@@ -741,20 +741,20 @@ class NewStreetArt extends React.Component {
     }
   };
 
-  handleChange = (event) => {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
 
-  handleFileChange = (event) => {
+  handleFileChange = (e) => {
     console.log("The file added by the use is: ", e.target.files[0]);
     this.setState({
       picture: e.target.files[0],
     });
   };
 
-  addStreetArtAndRedirectToDetailPage = (event) => {
+  addStreetArtAndRedirectToDetailPage = (e) => {
     // To send information with "form-data" (like in Postman)
     const uploadData = new FormData();
     uploadData.append("lng", this.state.lng);
@@ -765,7 +765,7 @@ class NewStreetArt extends React.Component {
       .addStreetArt(uploadData)
       .then((createdStreetArt) => {
         // Redirect the user to another page
-        props.history.push("/todo"); // TODO: change the URL
+        this.props.history.push("/todo"); // TODO: change the URL
       })
       .catch((err) => {
         console.log("Error while adding the street art: ", err);
@@ -834,6 +834,8 @@ class NewStreetArt extends React.Component {
     );
   }
 }
+
+export default NewStreetArt;
 ```
 
 You can preview the page here:
